@@ -1,15 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchUser } from "../actions";
 
 class UserHeader extends Component {
-  componentDidMount() {
-    return this.props.fetchUser(this.props.userId);
-  }
-
   render() {
-    // Find the user from the array with his id
-    const user = this.props.users.find((user) => user.id === this.props.userId);
+    const { user } = this.props;
 
     if (!user) {
       return null;
@@ -19,8 +13,9 @@ class UserHeader extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { users: state.users };
+const mapStateToProps = (state, ownProps) => {
+  // Find the user from the array with his id
+  return { user: state.users.find((user) => user.id === ownProps.userId) };
 };
 
-export default connect(mapStateToProps, { fetchUser })(UserHeader);
+export default connect(mapStateToProps)(UserHeader);
